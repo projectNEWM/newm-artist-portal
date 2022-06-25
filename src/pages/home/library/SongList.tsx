@@ -3,7 +3,10 @@ import { styled } from "@mui/material/styles";
 
 import {
   Box,
+  Divider,
   IconButton,
+  Popover,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +14,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import theme from "theme";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Typography } from "elements";
@@ -58,8 +63,7 @@ export default function SongList({
   useEffect(() => {
     setRowsPerPage(
       windowHeight
-        ? 
-          Math.floor(
+        ? Math.floor(
             (windowHeight - headerHeight - footerHeight - bottomPadding) /
               rowHeight
           )
@@ -83,7 +87,20 @@ export default function SongList({
       return url;
     }
   };
+  //Popover State
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleClick = (event: { currentTarget: any }) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   if (songData) {
     return (
       <TableContainer
@@ -149,9 +166,43 @@ export default function SongList({
                     <Box sx={ { display: { xs: "none", sm: "inline" } } }>
                       { row.createdAt.slice(0, 10) }{ " " }
                     </Box>
-                    <IconButton>
+                    <IconButton onClick={ handleClick }>
                       <VerticalEllipsis />
                     </IconButton>
+                    <Popover
+                      id={ id }
+                      open={ open }
+                      anchorEl={ anchorEl }
+                      onClose={ handleClose }
+                      anchorOrigin={ {
+                        vertical: "bottom",
+                        horizontal: "right",
+                      } }
+                      transformOrigin={ {
+                        vertical: "top",
+                        horizontal: "right",
+                      } }
+                    >
+                      <Box sx={ { backgroundColor: "#2C2C2E" } }>
+                        <Stack
+                          alignItems="flex-start"
+                          divider={ <Divider color="#48484A" flexItem /> }
+                        >
+                          <IconButton sx={ { width: "140px" } }>
+                            <EditIcon sx={ { color: "white" } } />
+                            <Typography color="white" px={ 1 }>
+                              Edit Song
+                            </Typography>
+                          </IconButton>
+                          <IconButton sx={ { width: "140px" } }>
+                            <DeleteIcon sx={ { color: "white" } } />
+                            <Typography color="white" px={ 1 }>
+                              Delete Song
+                            </Typography>
+                          </IconButton>
+                        </Stack>
+                      </Box>
+                    </Popover>
                   </StyledTableCell>
                 </TableRow>
               )) }
