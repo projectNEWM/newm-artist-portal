@@ -23,7 +23,7 @@ import VerticalEllipsis from "assets/images/VerticalEllipsis";
 import PlayButton from "assets/images/PlayButton";
 import { Song } from "modules/song";
 import TablePagination from "components/TablePagination";
-import DeleteModal from "./DeleteModal";
+import DeleteSongModal from "./DeleteSongModal";
 
 interface SongListProps {
   songData: Song[] | null | undefined;
@@ -206,7 +206,7 @@ export default function SongList({
                               Delete Song
                             </Typography>
                           </IconButton>
-                          <DeleteModal
+                          <DeleteSongModal
                             open={ isDeleteModalOpen }
                             handleClose={ () => setDeleteModalOpen(false) }
                           />
