@@ -1,6 +1,5 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-
 import {
   Box,
   Divider,
@@ -24,6 +23,7 @@ import VerticalEllipsis from "assets/images/VerticalEllipsis";
 import PlayButton from "assets/images/PlayButton";
 import { Song } from "modules/song";
 import TablePagination from "components/TablePagination";
+import DeleteModal from "./DeleteModal";
 
 interface SongListProps {
   songData: Song[] | null | undefined;
@@ -87,7 +87,7 @@ export default function SongList({
       return url;
     }
   };
-  //Popover State
+  //POPOVER VARS
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -99,8 +99,11 @@ export default function SongList({
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const isPopoverOpen = Boolean(anchorEl);
+  const id = isPopoverOpen ? "simple-popover" : undefined;
+  // END POPOVER VARS
+  //MODAL VARS
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   if (songData) {
     return (
       <TableContainer
@@ -171,7 +174,7 @@ export default function SongList({
                     </IconButton>
                     <Popover
                       id={ id }
-                      open={ open }
+                      open={ isPopoverOpen }
                       anchorEl={ anchorEl }
                       onClose={ handleClose }
                       anchorOrigin={ {
@@ -194,12 +197,19 @@ export default function SongList({
                               Edit Song
                             </Typography>
                           </IconButton>
-                          <IconButton sx={ { width: "140px" } }>
+                          <IconButton
+                            sx={ { width: "140px" } }
+                            onClick={ () => setDeleteModalOpen(true) }
+                          >
                             <DeleteIcon sx={ { color: "white" } } />
                             <Typography color="white" px={ 1 }>
                               Delete Song
                             </Typography>
                           </IconButton>
+                          <DeleteModal
+                            open={ isDeleteModalOpen }
+                            handleClose={ () => setDeleteModalOpen(false) }
+                          />
                         </Stack>
                       </Box>
                     </Popover>
