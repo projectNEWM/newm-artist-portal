@@ -42,7 +42,7 @@
     "test": "react-scripts test",
     "test:ci": "npm run test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
-    "format": "prettier-eslint --config .prettierrc.json --write \"src/**/*.{jsx,js,ts,tsx}\"",
+    "format": "prettier-eslint --config .prettierrc.json --write \"src/**/*.{jsx,js,ts,tsx,css}\"",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
@@ -118,14 +118,8 @@
     }
   },
   "lint-staged": {
-    "*.{jsx,js,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ],
-    "*.{html,css}": [
-      "prettier --write",
-      "git add"
-    ]
+    "linters": {
+      "src/**/*.{jsx,js,ts,tsx,css}": ["npm run format", "git add"]
+    }
   }
 }
