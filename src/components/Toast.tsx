@@ -12,7 +12,7 @@ import theme from "theme";
 
 const Toast = () => {
   const dispatch = useDispatch();
-  const {toast:{ heading, message, severity} } = useSelector(selectUi);
+  const {toast:{heading, message, severity} } = useSelector(selectUi);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
